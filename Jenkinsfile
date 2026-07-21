@@ -31,7 +31,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'npm ci'
+                    sh 'npm install --ignore-scripts --no-audit --no-fund'
                     sh 'NODE_OPTIONS="--max-old-space-size=512" npm run build'
                 }
             }
