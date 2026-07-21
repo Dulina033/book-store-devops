@@ -15,7 +15,7 @@ pipeline {
         stage('Install Dependencies (Backend)') {
             steps {
                 dir('backend') {
-                    sh 'npm install'
+                    sh 'npm ci'
                 }
             }
         }
@@ -31,8 +31,8 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'npm install'
-                    sh 'npm run build'
+                    sh 'npm ci'
+                    sh 'NODE_OPTIONS="--max-old-space-size=512" npm run build'
                 }
             }
         }
