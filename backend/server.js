@@ -10,7 +10,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI =
-  process.env.MONGO_URI || "mongodb://127.0.0.1:27017/mern-bookstore";
+  process.env.MONGO_URI ||
+  "mongodb+srv://dulinaranasinghe004_db_user:nethduli03@cluster0.xryraxz.mongodb.net/?appName=Cluster0";
 
 app.use(cors());
 app.use(express.json());

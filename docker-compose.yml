@@ -1,14 +1,7 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: bookstore-mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-    restart: unless-stopped
+  # REMOVED: mongodb service - using Atlas cloud instead!
 
   backend:
     build:
@@ -18,11 +11,9 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/mern-bookstore
-      - PORT=5000
+      # USE YOUR ATLAS CONNECTION STRING FROM THE IMAGE
+      - MONGO_URI= mongodb+srv://dulinaranasinghe004_db_user:nethduli03@cluster0.xryraxz.mongodb.net/?appName=Cluster0
       - NODE_ENV=production
-    depends_on:
-      - mongodb
     restart: unless-stopped
 
   frontend:
@@ -36,5 +27,4 @@ services:
       - backend
     restart: unless-stopped
 
-volumes:
-  mongodb_data:
+# REMOVED: mongodb_data volume - no longer needed!
