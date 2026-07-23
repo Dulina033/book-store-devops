@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: bookstore-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: bookstore-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/mern-bookstore
+      - PORT=5000
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    container_name: bookstore-frontend
+    ports:
+      - "3000:80"
+
+volumes:
+  mongodb_data:
