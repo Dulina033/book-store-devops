@@ -8,23 +8,33 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+    restart: unless-stopped
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: bookstore-backend
     ports:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongodb:27017/mern-bookstore
       - PORT=5000
+      - NODE_ENV=production
     depends_on:
       - mongodb
+    restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: bookstore-frontend
     ports:
       - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
 
 volumes:
   mongodb_data:
