@@ -9,9 +9,13 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const MONGO_URI =
-  process.env.MONGO_URI ||
-  "mongodb+srv://dulinaranasinghe004_db_user:nethduli03@cluster0.xryraxz.mongodb.net/?appName=Cluster0";
+const MONGO_URI = process.env.MONGO_URI;
+
+// Check if MONGO_URI is set
+if (!MONGO_URI) {
+  console.error("ERROR: MONGO_URI environment variable is not set!");
+  process.exit(1);
+}
 
 app.use(cors());
 app.use(express.json());
@@ -34,12 +38,12 @@ mongoose.set("strictQuery", false);
 mongoose
   .connect(MONGO_URI)
   .then(() => {
-    console.log(`MongoDB connected to ${MONGO_URI}`);
+    console.log(`✅ MongoDB connected successfully`);
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("MongoDB connection failed", err);
+    console.error("❌ MongoDB connection failed:", err.message);
     process.exit(1);
   });
