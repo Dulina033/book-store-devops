@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: book-store-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - book-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: book-store-backend
+    ports:
+      - "5000:5000"
+    environment:
+      MONGODB_URI: mongodb://admin:password@mongodb:27017/bookstore?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - book-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: book-store-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - book-network
+
+networks:
+  book-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
